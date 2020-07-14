@@ -1,20 +1,37 @@
 <template>
   <div class="navigation">
-    <v-app-bar fixed app>
+    <v-app-bar fixed app :class="isEvil ? 'bg-dark' : 'bg-light'" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
-      <v-toolbar-title v-text="title" />
+      <v-toolbar-title v-text="isEvil ? evil.title : good.title" />
       <v-spacer></v-spacer>
 
-      <v-icon
-        @click="dark = !dark"
-        :color="dark ? 'yellow darken-2' : 'red darken-2'"
-        >{{ dark ? "mdi-moon-waxing-crescent" : "mdi-weather-sunny" }}</v-icon
-      >
+      <v-icon @click="goEvil">{{
+        isEvil ? "mdi-emoticon-devil-outline" : "mdi-emoticon-excited-outline"
+      }}</v-icon>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" fixed app>
+    <v-navigation-drawer
+      v-model="drawer"
+      fixed
+      app
+      dark
+      :color="isEvil ? evil.bgColor : good.bgColor"
+    >
       <v-list>
+        <v-list-item two-line>
+          <v-list-item-avatar>
+            <img src="https://randomuser.me/api/portraits/men/81.jpg" />
+          </v-list-item-avatar>
+
+          <v-list-item-content>
+            <v-list-item-title>Application</v-list-item-title>
+            <v-list-item-subtitle>Subtext</v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-divider></v-divider>
+
         <v-list-item
           v-for="(item, i) in items"
           :key="i"
@@ -39,7 +56,6 @@ export default {
   data() {
     return {
       drawer: false,
-      dark: false,
       items: [
         {
           icon: "mdi-home",
@@ -52,7 +68,14 @@ export default {
           to: "/inspire"
         }
       ],
-      title: "Countries For Villains"
+      good: {
+        title: "Countries For People",
+        bgColor: "light-blue darken-1"
+      },
+      evil: {
+        title: "Countries For Villains",
+        bgColor: "red accent-4"
+      }
     };
   },
   methods: {
@@ -61,12 +84,29 @@ export default {
     },
     goLight() {
       this.$vuetify.theme.dark = false;
+    },
+    goEvil() {
+      this.$store.dispatch("updateEvil");
     }
   },
   watch: {
-    dark: function() {
-      this.dark ? this.goDark() : this.goLight();
+    isEvil: function() {
+      this.isEvil ? this.goDark() : this.goLight();
+    }
+  },
+  computed: {
+    isEvil() {
+      return this.$store.state.isEvil;
     }
   }
 };
 </script>
+
+<style>
+.bg-light {
+  background-image: url("~assets/background/bg-blue.jpg");
+}
+.bg-dark {
+  background-image: url("~assets/background/bg-red.jpg");
+}
+</style>

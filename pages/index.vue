@@ -3,7 +3,7 @@
     <v-flex xs12 sm8 md6>
       <v-card>
         <v-card-title class="headline">
-          Welcome to the Vuetify + Nuxt.js template
+          {{ isEvil ? evil.title : good.title }}
         </v-card-title>
         <v-card-text>
           <p>
@@ -80,6 +80,20 @@
 
 <script>
 export default {
-  components: {}
+  data() {
+    return {
+      good: {
+        title: "Donating?"
+      },
+      evil: {
+        title: "Take Over!!!"
+      }
+    };
+  },
+  computed: {
+    isEvil() {
+      return this.$store.state.isEvil;
+    }
+  }
 };
 </script>

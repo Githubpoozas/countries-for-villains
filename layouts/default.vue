@@ -26,4 +26,8 @@ export default {
 html {
   overflow-y: auto;
 }
+.v-main {
+  max-width: 1200px;
+  margin: 0 auto;
+}
 </style>

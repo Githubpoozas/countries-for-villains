@@ -3,20 +3,32 @@ import Vuex from "vuex";
 const checkEvil = () => {
   return new Vuex.Store({
     state: {
-      isEvil: false
+      isEvil: undefined
     },
     mutations: {
-      REVERSE(state) {
+      SWITCH_MUTATION(state) {
         state.isEvil = !state.isEvil;
+      },
+      GOOD_MUTATION(state) {
+        state.isEvil = false;
+      },
+      EVIL_MUTATION(state) {
+        state.isEvil = true;
       }
     },
     actions: {
-      updateEvil({ state, commit }) {
-        commit("REVERSE");
+      switchAction({ state, commit }) {
+        commit("SWITCH_MUTATION");
+      },
+      goodAction({ state, commit }) {
+        commit("GOOD_MUTATION");
+      },
+      evilAction({ state, commit }) {
+        commit("EVIL_MUTATION");
       }
     },
-    getter: {
-      testEvil(state) {
+    getters: {
+      getIsEvil(state) {
         return state.isEvil;
       }
     }

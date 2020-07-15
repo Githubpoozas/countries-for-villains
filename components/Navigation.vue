@@ -3,7 +3,7 @@
     <!-- <v-app-bar fixed app dark :style="navColor()" class="navbar"> -->
     <v-app-bar fixed app dark class="purple accent-3">
       <div class="gauge-good" :style="gaugeGood"></div>
-      <div class="gauge-bad" :style="gaugeBad"></div>
+      <div class="gauge-evil" :style="gaugeEvil"></div>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
       <v-toolbar-title v-text="navTitle" class="nav-title" />
@@ -76,9 +76,10 @@ export default {
       drawer: false,
       goodPoint: 1,
       evilPoint: 1,
+      totalPoint: this.goodPoint + this.evilPoint,
       credit: 10000,
       gaugeGood: "width:50%",
-      gaugeBad: "width:50%",
+      gaugeEvil: "width:50%",
       items: [
         {
           icon: "mdi-home",
@@ -122,15 +123,29 @@ export default {
       if (this.isEvil) return this.$router.push("/evil");
       return this.$router.push("/good");
     },
+    gaugeRatio() {
+      let goodPercent = Math.floor((this.goodPoint / this.totalPoint) * 100);
+      let badPercent = 100 - goodPercent;
+      return [goodPercent, badPercent];
+    },
+
     gaugeWidth() {
       if (this.goodPoint <= 0 || this.evilPoint <= 0) {
         this.gaugeGood = "width: 50%";
-        this.gaugeBad = "width: 50%";
+        this.gaugeEvil = "width: 50%";
+        return;
       }
-      let totalPoint = this.goodPoint + this.evilPoint;
-      let goodPercent = Math.floor((this.goodPoint / totalPoint) * 100);
+      let [goodPercent, badPercent] = this.gaugeRatio();
       this.gaugeGood = "width:" + goodPercent + "%";
-      this.gaugeBad = "width:" + (100 - goodPercent) + "%";
+      this.gaugeEvil = "width:" + (100 - goodPercent) + "%";
+    },
+    animateGauge() {
+      setInterval(() => {
+        let rand = Math.floor(Math.random() * 5);
+        let [goodPercent, badPercent] = this.gaugeRatio();
+        this.gaugeGood = "width:" + (goodPercent - rand) + "%";
+        this.gaugeEvil = "width:" + (100 - (goodPercent + rand)) + "%";
+      }, 1000);
     }
   },
   watch: {
@@ -138,9 +153,11 @@ export default {
       this.isEvil ? this.goDark() : this.goLight();
     },
     goodPoint() {
+      this.totalPoint = this.goodPoint + this.evilPoint;
       this.gaugeWidth();
     },
     evilPoint() {
+      this.totalPoint = this.goodPoint + this.evilPoint;
       this.gaugeWidth();
     }
   },
@@ -158,6 +175,10 @@ export default {
       if (this.isEvil === true) return "bg-dark";
       return "bg-light";
     }
+  },
+  created() {
+    this.totalPoint = this.goodPoint + this.evilPoint;
+    this.animateGauge();
   }
 };
 </script>
@@ -192,7 +213,7 @@ export default {
   top: 0;
   transition: width 1s;
 }
-.gauge-bad {
+.gauge-evil {
   background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #d50000 10%);
   position: absolute;
   height: 100%;

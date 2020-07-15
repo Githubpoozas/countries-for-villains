@@ -58,7 +58,6 @@ export default {
   width: 100%;
   border-radius: 5%;
   transition: transform 0.3s, border 0.5s;
-  /* border: solid 0px #000; */
 }
 .good-path {
   border: solid 0px #2196f3;
@@ -69,13 +68,5 @@ export default {
 .path-img:hover {
   border: solid 10px transparent;
   transform: translateY(-3%) scale(1.1, 1.1);
-}
-.path-box {
-  /* transition: all 0.3s; */
-  /* border: solid 0px #000; */
-}
-.path-box:hover {
-  /* border: solid 5px #000; */
-  /* transform: translateY(-3%) scale(1.1, 1.1); */
 }
 </style>

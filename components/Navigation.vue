@@ -1,9 +1,12 @@
 <template>
   <div class="navigation">
-    <v-app-bar fixed app dark :style="navColor()">
+    <!-- <v-app-bar fixed app dark :style="navColor()" class="navbar"> -->
+    <v-app-bar fixed app dark class="purple accent-3">
+      <div class="gauge-good" :style="gaugeGood"></div>
+      <div class="gauge-bad" :style="gaugeBad"></div>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
 
-      <v-toolbar-title v-text="navTitle" />
+      <v-toolbar-title v-text="navTitle" class="nav-title" />
       <v-spacer></v-spacer>
 
       <v-btn
@@ -74,6 +77,8 @@ export default {
       goodPoint: 1,
       evilPoint: 1,
       credit: 10000,
+      gaugeGood: "width:50%",
+      gaugeBad: "width:50%",
       items: [
         {
           icon: "mdi-home",
@@ -117,18 +122,15 @@ export default {
       if (this.isEvil) return this.$router.push("/evil");
       return this.$router.push("/good");
     },
-    navColor() {
-      if (this.goodPoint === 0 || this.evilPoint === 0) return false;
-
+    gaugeWidth() {
+      if (this.goodPoint <= 0 || this.evilPoint <= 0) {
+        this.gaugeGood = "width: 50%";
+        this.gaugeBad = "width: 50%";
+      }
       let totalPoint = this.goodPoint + this.evilPoint;
       let goodPercent = Math.floor((this.goodPoint / totalPoint) * 100);
-      return (
-        "background: linear-gradient(90deg, rgba(33,150,243,1) " +
-        (goodPercent - 10) +
-        "%, rgba(213,0,0,1) " +
-        (goodPercent + 10) +
-        "%)"
-      );
+      this.gaugeGood = "width:" + goodPercent + "%";
+      this.gaugeBad = "width:" + (100 - goodPercent) + "%";
     }
   },
   watch: {
@@ -136,10 +138,10 @@ export default {
       this.isEvil ? this.goDark() : this.goLight();
     },
     goodPoint() {
-      this.navColor();
+      this.gaugeWidth();
     },
     evilPoint() {
-      this.navColor();
+      this.gaugeWidth();
     }
   },
   computed: {
@@ -181,5 +183,24 @@ export default {
 }
 .credit-box .credit-text:not(:last-child) {
   margin-bottom: 5px;
+}
+.gauge-good {
+  background-image: linear-gradient(to right, #2196f3 90%, rgba(0, 0, 0, 0));
+  position: absolute;
+  height: 100%;
+  left: 0;
+  top: 0;
+  transition: width 1s;
+}
+.gauge-bad {
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), #d50000 10%);
+  position: absolute;
+  height: 100%;
+  right: 0;
+  top: 0;
+  transition: width 1s;
+}
+.nav-title {
+  z-index: 10;
 }
 </style>

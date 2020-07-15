@@ -70,14 +70,13 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   data() {
     return {
       drawer: false,
-      goodPoint: 1,
-      evilPoint: 1,
-      totalPoint: this.goodPoint + this.evilPoint,
-      credit: 10000,
+      totalPoint: "",
       gaugeGood: "width:50%",
       gaugeEvil: "width:50%",
       items: [
@@ -162,6 +161,7 @@ export default {
     }
   },
   computed: {
+    ...mapState(["goodPoint", "evilPoint", "credit"]),
     isEvil() {
       return this.$store.getters.getIsEvil;
     },

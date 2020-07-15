@@ -1,7 +1,7 @@
 <template>
-  <v-container class="grey lighten-5">
+  <v-container :class="isEvil ? 'grey darken-4' : 'grey lighten-5'">
     <v-row class="title-row">
-      <h1>Path?</h1>
+      <h1 :class="textEvil">{{ path }}</h1>
     </v-row>
     <v-row>
       <v-col class="mb-6">
@@ -39,6 +39,19 @@ export default {
     turnEvil() {
       this.$router.push("/evil");
       this.$store.dispatch("evilAction");
+    }
+  },
+  computed: {
+    isEvil() {
+      return this.$store.getters.getIsEvil;
+    },
+    textEvil() {
+      if (this.isEvil) return "white--text";
+      return "black--text";
+    },
+    path() {
+      if (this.isEvil === undefined) return "Path?";
+      return "Change your mind?";
     }
   }
 };

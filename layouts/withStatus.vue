@@ -14,13 +14,13 @@
 <script>
 import Navigation from "~/components/Navigation";
 import Footer from "~/components/Footer";
-import Status from "~/components/Status";
+import StatusCard from "~/components/StatusCard";
 
 export default {
   components: {
     Navigation,
     Footer,
-    Status
+    StatusCard
   }
 };
 </script>

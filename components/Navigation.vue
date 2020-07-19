@@ -185,16 +185,16 @@ export default {
 
 <style>
 .bg-light {
-  background-image: url("~assets/background/bg-good.jpg");
+  background-image: url("~assets/background/bg-good-crop.jpg");
   background-position: right;
   background-size: cover;
 }
 .bg-dark {
-  background-image: url("~assets/background/bg-evil.jpg");
+  background-image: url("~assets/background/bg-evil-crop.jpg");
   background-size: cover;
 }
 .bg-noMan {
-  background-image: url("~assets/background/bg-noMan.jpg");
+  background-image: url("~assets/background/bg-noMan-crop.jpg");
   background-size: cover;
 }
 .credit-box .credit-text {

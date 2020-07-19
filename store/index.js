@@ -290,7 +290,7 @@ const checkEvil = () => {
           country => country.code === countryCode
         );
         state.countries[countryIndex]["wealth"] += amount;
-        let newGoodPoint = amount / 10000;
+        let newGoodPoint = Math.floor(amount / 10000);
         if (newGoodPoint <= 0) return;
         state.goodPoint += newGoodPoint;
       }

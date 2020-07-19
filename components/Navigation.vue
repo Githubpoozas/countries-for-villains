@@ -21,7 +21,14 @@
       >
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" fixed app dark :class="drawerBg">
+    <v-navigation-drawer
+      v-model="drawer"
+      fixed
+      app
+      dark
+      temporary
+      :class="drawerBg"
+    >
       <v-list>
         <v-list-item two-line>
           <v-list-item-avatar>
